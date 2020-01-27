@@ -1,6 +1,5 @@
 package LeetCode;
 
-import java.awt.image.ImageProducer;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -32,26 +31,49 @@ public class Longest_Substring {
 
 
     public int lengthOfLongestSubstring(String s) {
+        int max = 0;
 
-        /*
-          System.out.println(s.substring(0,1));
-          System.out.println(s.substring(1,2));
-          System.out.println(s.substring(2,3));
-          System.out.println(s.substring(3,4));
-          System.out.println(s.substring(4,5));
+        for (int i =0;i<s.length();i++) {
+            int su = smallSubString(i,s);
+            max = su > max ? su : max;
 
-          System.out.println(s.substring(4,5));
-          System.out.println(s.substring(4,5));
-          System.out.println(s.substring(4,5));
-        */
-        Set<String> set = new HashSet<>();
-
-        for(int i =0; i < s.length(); i++){
-            Character ch = s.charAt(i);
-            System.out.println(ch);
         }
-        return 1;
+
+        return max;
     }
+
+    public int smallSubString(int start,String s){
+        Set<Character> set = new HashSet<>();
+        for(int i =start; i < s.length(); i++){
+            Character ch = s.charAt(i);
+            if(!set.contains(ch)){
+                set.add(ch);
+            }else{
+                break;
+            }
+        }
+        return set.size();
+    }
+    //abcabcbb // 음 슬라이드 윈도우 교차하면서 지워준
+    public int slideWidnow(String s){
+        Set<Character> set = new HashSet<>();
+        int index =0,j = 0;
+        int ans =0;
+        while (index < s.length() && j <s.length()) {
+            if (!set.contains(s.charAt(j))) {
+                set.add(s.charAt(j));
+                j++;
+                ans = Math.max(ans,j-index);
+
+            } else {
+                set.remove(s.charAt(index++));
+            }
+        }
+        return ans;
+
+    }
+
+
 
 
     public void test () {
@@ -59,6 +81,8 @@ public class Longest_Substring {
         testCase.put("abcabcbb",3);
         testCase.put("bbbbb",1);
         testCase.put("pwwkew",3);
+
+        System.out.println(slideWidnow("abcabcbb"));
 
         testCase.forEach((key,value)->{
             if(lengthOfLongestSubstring(key)==value){
