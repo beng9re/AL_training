@@ -29,14 +29,14 @@ public class AdjacencyList {
     }
 
     public void putSingleGraph(int fromNode, int toNode){
-       if(!graph.containsKey(fromNode)) { ArrayList<Integer> nodes = new ArrayList<Integer>();
-           nodes.add(toNode);
-           graph.put(fromNode,nodes);
-       }else{
-           graph.get(fromNode).add(toNode);
-       }
+       if(!graph.containsKey(fromNode)) graph.put(fromNode,new ArrayList<Integer>());
+       if(!graph.containsKey(toNode)) graph.put(toNode,new ArrayList<Integer>());
+
+       graph.get(fromNode).add(toNode);
+
     }
 
+    /*해당 경로의 최장 깊이 최단 깊이 구할수 있는 서치*/
     public void search(int a){
         ArrayList<Integer> nodes = graph.get(a);
         visit.put(a,true);
@@ -47,6 +47,12 @@ public class AdjacencyList {
                 search(v);
             }
         }
+        /*
+        visit.forEach((key,value) ->{
+            if(!value){search(key);}
+        });
+        */
+
 
     }
 
